@@ -16,7 +16,6 @@ class PageController extends Controller
 
     public function about(){
 
-
         return Inertia::render('About', [
             'time' => now()->toTimeString()
         ]);
@@ -27,17 +26,20 @@ class PageController extends Controller
     }
 
     public function search(){
-        return Inertia::render('Search');
+
+        $pagination = $_GET['pagination'] ?? null;
+        $results = $_GET['results'] ?? null;
+
+        return Inertia::render('Search', compact('pagination', 'results'));
     }
 
 
     public function api_call(Request $request){
 
-        $data = $request->validate([
-            "artist" => "nullable|min:1|max:100",
-            "release_title" => "nullable|min:1|max:100"
-            ]);
-
+    $data = $request->validate([
+        "artist" => "nullable|min:1|max:100",
+        "release_title" => "nullable|min:1|max:100"
+        ]);
 
       // Basic information about the API
       $baseUrl = 'https://api.discogs.com/database/search?';
@@ -63,7 +65,10 @@ class PageController extends Controller
       $pagination = $response['pagination'] ?? null;
       $results = $response['results'] ?? null;
 
-      return Inertia::render('Search', compact('pagination', 'results'));
+
+
+      return Inertia::render('Search', compact('pagination', 'results', 'artist', 'release_title'));
+
 
       }
 }

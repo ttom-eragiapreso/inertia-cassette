@@ -27,7 +27,7 @@ Route::get('/about', [PageController::class, 'about'])->name('About');
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', [PageController::class, 'home'])->name('home');
     Route::get('/search', [PageController::class, 'search'])->name('search');
-    Route::post('/query', [PageController::class, 'api_call'])->name('searchApi');
+    Route::get('/query', [PageController::class, 'api_call'])->name('searchApi');
 });
 
 

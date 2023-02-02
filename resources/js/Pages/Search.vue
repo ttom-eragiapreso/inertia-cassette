@@ -4,6 +4,8 @@
     </h2>
 
     <div class="container mx-auto text-center my-3">
+
+      <form @submit.prevent="submit" >
         <input
             v-model="form.artist"
             type="text"
@@ -19,15 +21,23 @@
         <Link
             :href="route('searchApi')"
             as="button"
-            method="post"
             class="p-2 bg-orange-700 rounded-md text-stone-300"
             :disabled="!form.release_title && !form.artist"
             :data="{
                 release_title: form.release_title,
                 artist: form.artist,
             }"
-            >Search</Link
-        >
+            >Search</Link>
+            <!-- <button type="submit">Search</button> -->
+
+      </form>
+
+    </div>
+
+    <!-- If there is pagination I show info about the number of results and how many pages -->
+    <div v-if="pagination">
+      <h2>Results found : {{ pagination.items }} for <span v-if="artist">Artist: {{ artist }}</span><span v-if="release_title">Release Title: {{ release_title }}</span></h2>
+      <h3>Page: {{ pagination.page }} of {{ pagination.pages }}</h3>
     </div>
 
     <!-- If there are results, I print them here -->
@@ -35,33 +45,42 @@
         <h1 v-for="result in results" :key="result.id">{{ result.title }}</h1>
     </div>
 
-    <!-- If there is pagination, I print it here -->
-    <div v-if="pagination">
-        <h1>{{ pagination.items }}</h1>
-    </div>
+    <!-- Links for paginator -->
+
+    <paginator v-if="pagination"/>
+
 
 
 </template>
 
 <script setup>
+
 let form = reactive({
     release_title: "",
     artist: "",
 });
 
+let submit = () =>{
+    Inertia.post('/query', form)
+}
+
+
 defineProps({
     results: Object,
     pagination: Object,
+    artist: String,
+    release_title: String
 });
 </script>
 
 <script>
+import {Inertia} from "@inertiajs/inertia";
 import Layout from "@/Shared/Layout.vue";
 import axios from "axios";
 import { reactive } from "@vue/reactivity";
 import { Link } from "@inertiajs/vue3";
+import Paginator from '@/Components/Paginator.vue';
 export default {
     layout: Layout,
-    components: { Link },
 };
 </script>
