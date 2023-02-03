@@ -74,7 +74,7 @@ class PageController extends Controller
 
       public function pagination(Request $request){
 
-        $url = $request->input('url');
+        $url = $request->input('link');
 
         $opts = array(
             'http'=>array(

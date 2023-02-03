@@ -44,14 +44,14 @@
     <div v-if="results">
         <div class="container md:gap-x-4 mx-auto flex flex-wrap justify-around px-5 columns-2 md:columns-4 lg:columns-6">
 
-            <album v-for="record in results" :key="record.id" :record="record"/>
+            <Album v-for="record in results" :key="record.id" :record="record"/>
 
         </div>
     </div>
 
     <!-- Links for paginator -->
 
-    <paginator v-if="pagination" :pagination="pagination"/>
+    <Paginator v-if="props.pagination" :pagination="props.pagination"/>
 
 
 
