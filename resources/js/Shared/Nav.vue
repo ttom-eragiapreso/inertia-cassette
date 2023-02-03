@@ -1,5 +1,5 @@
 <template>
-      <div class="h-16 bg-red-500 flex items-center px-5 text-2xl">
+      <div class="h-16 flex items-center px-5 text-2xl">
 
             <Link :href="route('home')" class="mr-4 hover:underline">Home</Link>
             <Link :href="route('search')" class="hover:underline" >Search New Music</Link>

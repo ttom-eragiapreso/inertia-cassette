@@ -40,18 +40,18 @@
       <h3>Page: {{ pagination.page }} of {{ pagination.pages }}</h3>
     </div>
 
-<!-- If there are results, I print them here -->
-<div v-if="results">
-    <div class="container md:gap-x-4 mx-auto flex flex-wrap justify-around px-5 columns-2 md:columns-4 lg:columns-6">
+    <!-- If there are results, I print them here -->
+    <div v-if="results">
+        <div class="container md:gap-x-4 mx-auto flex flex-wrap justify-around px-5 columns-2 md:columns-4 lg:columns-6">
 
-        <album v-for="record in results" :key="record.id" :record="record"/>
+            <album v-for="record in results" :key="record.id" :record="record"/>
 
+        </div>
     </div>
-</div>
 
     <!-- Links for paginator -->
 
-    <paginator v-if="pagination"/>
+    <paginator v-if="pagination" :pagination="pagination"/>
 
 
 

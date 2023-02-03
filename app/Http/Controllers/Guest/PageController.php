@@ -71,4 +71,29 @@ class PageController extends Controller
 
 
       }
+
+      public function pagination(Request $request){
+
+        $url = $request->input('url');
+
+        $opts = array(
+            'http'=>array(
+              'method'=>"GET",
+              'header'=>"Accept-language: */*",
+              'user_agent' => 'My Library test app - localhost'
+              )
+            );
+          // Options encapsulation in a context
+          $context = stream_context_create($opts);
+
+          // Make the call and save the results in response.
+          $response = json_decode(file_get_contents($url, false, $context), true);
+
+          // I then save the pagination and the actual results in 2 different variables
+          $pagination = $response['pagination'] ?? null;
+          $results = $response['results'] ?? null;
+
+        return Inertia::render('Search', compact('pagination', 'results'));
+
+      }
 }
