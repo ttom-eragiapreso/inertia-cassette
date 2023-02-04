@@ -42,15 +42,15 @@
     </div>
 
     <!-- If there are results, I print them here -->
-    <div v-if="results">
+    <div v-if="results" class="position-relative">
         <div
             class="container md:gap-x-4 mx-auto flex flex-wrap justify-around px-5 columns-2 md:columns-4 lg:columns-6"
         >
+            <Modal v-if="showModal" class="position-absolute top-0 left-0" />
             <Album
                 v-for="record in results"
                 :key="record.id"
                 :record="record"
-                @show-modal="test(record.id)"
             />
         </div>
     </div>
@@ -78,16 +78,13 @@ let props = defineProps({
 });
 
 let showModal = ref(false);
-
-let test = (id) => {
-    console.log(id);
-};
 </script>
 
 <script>
 import { Inertia } from "@inertiajs/inertia";
 import Album from "@/Components/Album.vue";
 import Layout from "@/Shared/Layout.vue";
+import Modal from "@/Components/Modal.vue";
 import axios from "axios";
 import { reactive, ref } from "@vue/reactivity";
 import { Link } from "@inertiajs/vue3";

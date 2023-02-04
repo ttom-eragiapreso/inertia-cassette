@@ -14,13 +14,6 @@ class PageController extends Controller
         return Inertia::render('Auth/Login');
     }
 
-    public function about(){
-
-        return Inertia::render('About', [
-            'time' => now()->toTimeString()
-        ]);
-    }
-
     public function home(){
         return Inertia::render('Home');
     }
@@ -76,6 +69,18 @@ class PageController extends Controller
           $results = $response['results'] ?? null;
 
           return Inertia::render('Search', compact('pagination', 'results'));
+
+      }
+
+      public function show_album_details(){
+
+        $id = request('id');
+
+        $url = "https://api.discogs.com/releases/";
+
+        $context = get_ctx();
+
+
 
       }
 }

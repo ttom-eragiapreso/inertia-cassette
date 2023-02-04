@@ -14,23 +14,25 @@
             <h5 class="text-black-500 mb-3">{{ getTitle(record) }}</h5>
             <h6 class="text-slate-600 mb-4">{{ getAuthor(record) }}</h6>
             <div class="flex justify-center">
-                <button
+                <Link
                     class="bg-mint-500 p-2 text-bisque-50 rounded-xl hover:bg-mint-700"
-                    @click="test(record.id)"
+                    as="button"
+                    :href="route('album-details')"
+                    :data="{ id: record.id }"
                 >
                     More Info
-                </button>
+                </Link>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+import { Link } from "@inertiajs/vue3";
+
 defineProps({
     record: Object,
 });
-
-const emits = defineEmits(["showModal"]);
 
 let getAuthor = (record) => {
     if (record.title.includes("-")) {
@@ -49,8 +51,4 @@ let getTitle = (record) => {
         return record.title;
     }
 };
-
-function test(id) {
-    emits("showModal", id);
-}
 </script>

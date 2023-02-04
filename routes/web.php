@@ -29,6 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/search', [PageController::class, 'search'])->name('search');
     Route::get('/query', [PageController::class, 'api_call'])->name('searchApi');
     Route::get('/pagination', [PageController::class, 'pagination'])->name('pagination');
+    Route::get('/album-details', [PageController::class, 'show_album_details'])->name('album-details');
 });
 
 
