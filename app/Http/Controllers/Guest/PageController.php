@@ -76,11 +76,19 @@ class PageController extends Controller
 
         $id = request('id');
 
-        $url = "https://api.discogs.com/releases/";
+        $token = 'HWiFdStcHwaqgBqEAoEjjvCFhQUNnZHqZFuelXuZ';
+
+        $url = "https://api.discogs.com/releases/$id?curr_abbr=EUR&token=$token";
+
 
         $context = get_ctx();
 
+        $response = json_decode(file_get_contents($url, false, $context), true);
 
+         dd($response);
 
+        $show_modal = true;
+
+        return Inertia::render('Search', compact('response', 'show_modal'));
       }
 }

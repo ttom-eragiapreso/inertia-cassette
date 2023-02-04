@@ -46,7 +46,7 @@
         <div
             class="container md:gap-x-4 mx-auto flex flex-wrap justify-around px-5 columns-2 md:columns-4 lg:columns-6"
         >
-            <Modal v-if="showModal" class="position-absolute top-0 left-0" />
+            <Modal v-if="show_modal" class="position-absolute top-0 left-0" />
             <Album
                 v-for="record in results"
                 :key="record.id"
@@ -75,9 +75,10 @@ let props = defineProps({
     pagination: Object,
     artist: String,
     release_title: String,
+    show_modal: Boolean,
 });
 
-let showModal = ref(false);
+// let showModal = ref(false);
 </script>
 
 <script>
