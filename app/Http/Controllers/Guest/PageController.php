@@ -47,16 +47,9 @@ class PageController extends Controller
       // Information about the researched params
       $artist = request('artist');
       $release_title = request('release_title');
-      // Necessary additional information to make the api call
-      $opts = array(
-        'http'=>array(
-          'method'=>"GET",
-          'header'=>"Accept-language: */*",
-          'user_agent' => 'My Library test app - localhost'
-          )
-        );
+
       // Options encapsulation in a context
-      $context = stream_context_create($opts);
+      $context = get_ctx();
 
       // Make the call and save the results in response.
       $response = json_decode(file_get_contents("$baseUrl" . "token=$token" . "&artist=$artist" . "&release_title=$release_title" . "&per_page=48",false, $context), true);
@@ -64,27 +57,16 @@ class PageController extends Controller
       // I then save the pagination and the actual results in 2 different variables
       $pagination = $response['pagination'] ?? null;
       $results = $response['results'] ?? null;
-
-
-
+      // Finally I return an Inertia view which loads a vue component with the props containing the results.
       return Inertia::render('Search', compact('pagination', 'results', 'artist', 'release_title'));
-
 
       }
 
       public function pagination(Request $request){
 
-        $url = $request->input('link');
+          $url = $request->input('link');
 
-        $opts = array(
-            'http'=>array(
-              'method'=>"GET",
-              'header'=>"Accept-language: */*",
-              'user_agent' => 'My Library test app - localhost'
-              )
-            );
-          // Options encapsulation in a context
-          $context = stream_context_create($opts);
+          $context = get_ctx();
 
           // Make the call and save the results in response.
           $response = json_decode(file_get_contents($url, false, $context), true);
@@ -93,7 +75,7 @@ class PageController extends Controller
           $pagination = $response['pagination'] ?? null;
           $results = $response['results'] ?? null;
 
-        return Inertia::render('Search', compact('pagination', 'results'));
+          return Inertia::render('Search', compact('pagination', 'results'));
 
       }
 }
