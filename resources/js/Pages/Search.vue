@@ -32,7 +32,7 @@
     </div>
 
     <!-- If there is pagination I show info about the number of results and how many pages -->
-    <div v-if="!switchPagination">
+    <div v-if="switchPagination">
         <h2>
             Results found : {{ switchPagination.items }} for
             <span v-if="artist">Artist: {{ artist }}</span>
@@ -50,7 +50,7 @@
         >
             <Modal
                 v-if="props.show_modal"
-                class="position-absolute top-0 left-0"
+                class="position-absolute top-0 left-0 z-10"
                 :details="props.response"
             />
             <Album
@@ -62,7 +62,7 @@
     </div>
 
     <!-- I load the paginator component, only if a pagination comes from the search -->
-    <Paginator v-if="!switchPagination" :pagination="switchPagination" />
+    <Paginator v-if="switchPagination" :pagination="switchPagination" />
 </template>
 
 <script setup>
