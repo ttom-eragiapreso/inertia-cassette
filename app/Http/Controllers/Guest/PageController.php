@@ -85,8 +85,6 @@ class PageController extends Controller
 
         $response = json_decode(file_get_contents($url, false, $context), true);
 
-         dd($response);
-
         $show_modal = true;
 
         return Inertia::render('Search', compact('response', 'show_modal'));

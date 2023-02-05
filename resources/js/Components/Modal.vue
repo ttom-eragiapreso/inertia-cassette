@@ -1,5 +1,9 @@
 <template>
-    <h1>Ciao sono un modal</h1>
+    <h1></h1>
 </template>
 
-<script setup></script>
+<script setup>
+let props = defineProps({
+    details: Object,
+});
+</script>

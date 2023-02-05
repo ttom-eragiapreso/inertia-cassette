@@ -32,23 +32,29 @@
     </div>
 
     <!-- If there is pagination I show info about the number of results and how many pages -->
-    <div v-if="pagination">
+    <div v-if="!switchPagination">
         <h2>
-            Results found : {{ pagination.items }} for
+            Results found : {{ switchPagination.items }} for
             <span v-if="artist">Artist: {{ artist }}</span>
             <span v-if="release_title">Release Title: {{ release_title }}</span>
         </h2>
-        <h3>Page: {{ pagination.page }} of {{ pagination.pages }}</h3>
+        <h3>
+            Page: {{ switchPagination.page }} of {{ switchPagination.pages }}
+        </h3>
     </div>
 
     <!-- If there are results, I print them here -->
-    <div v-if="results" class="position-relative">
+    <div v-if="store.results" class="position-relative">
         <div
             class="container md:gap-x-4 mx-auto flex flex-wrap justify-around px-5 columns-2 md:columns-4 lg:columns-6"
         >
-            <Modal v-if="show_modal" class="position-absolute top-0 left-0" />
+            <Modal
+                v-if="props.show_modal"
+                class="position-absolute top-0 left-0"
+                :details="props.response"
+            />
             <Album
-                v-for="record in results"
+                v-for="record in switchResults"
                 :key="record.id"
                 :record="record"
             />
@@ -56,8 +62,7 @@
     </div>
 
     <!-- I load the paginator component, only if a pagination comes from the search -->
-
-    <Paginator v-if="props.pagination" :pagination="props.pagination" />
+    <Paginator v-if="!switchPagination" :pagination="switchPagination" />
 </template>
 
 <script setup>
@@ -70,12 +75,40 @@ let submit = () => {
     Inertia.post("/query", form);
 };
 
+const switchResults = computed(() => {
+    let collection = props.results
+        ? props.results
+        : store.results
+        ? store.results
+        : false;
+    return collection;
+});
+
+const switchPagination = computed(() => {
+    let pages = props.pagination
+        ? props.pagination
+        : store.pagination
+        ? store.pagination
+        : false;
+    return pages;
+});
+
 let props = defineProps({
     results: Object,
     pagination: Object,
     artist: String,
     release_title: String,
     show_modal: Boolean,
+    response: Object,
+});
+
+onMounted(() => {
+    if (props.results) {
+        store.results = props.results;
+    }
+    if (props.pagination) {
+        store.pagination = props.pagination;
+    }
 });
 
 // let showModal = ref(false);
@@ -90,7 +123,8 @@ import axios from "axios";
 import { reactive, ref } from "@vue/reactivity";
 import { Link } from "@inertiajs/vue3";
 import Paginator from "@/Components/Paginator.vue";
-import { computed } from "@vue/runtime-core";
+import { computed, onMounted } from "@vue/runtime-core";
+import { store } from "../data/store";
 export default {
     layout: Layout,
 };
